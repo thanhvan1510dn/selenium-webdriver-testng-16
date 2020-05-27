@@ -35,10 +35,66 @@ public class Topic_03_Xpath_Technical_Ex_Part1 {
 		// Click Login button
 		driver.findElement(By.id("send2")).click();
 		
-		// Verify error message tại 2 field: This is a required field
+		// Verify error message tại 2 field: This is a required field.
 		// So sánh Actual message (hàm thực thi) và Expected message: theo tài liệu yêu cầu
 		Assert.assertEquals(driver.findElement(By.id("advice-required-entry-email")).getText(), "This is a required field.");
 		
+	}
+	@Test
+	public void TC_02_LoginWithInvalidEmail() {
+		//Mở ra trang Home
+		driver.get("http://live.demoguru99.com/index.php");
+		// Click vào link My account để tới trang đăng nhập
+		driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+		
+		// Nhập invalid email, any password
+		driver.findElement(By.id("email")).sendKeys("vandinh@123");
+		driver.findElement(By.id("pass")).sendKeys("van123");
+		
+		// Click Login button
+		driver.findElement(By.id("send2")).click();
+		
+		// Verify error message tại field email: Please enter a valid email address. For example johndoe@domain.com.
+		// So sánh Actual message (hàm thực thi) và Expected message: theo tài liệu yêu cầu
+		Assert.assertEquals(driver.findElement(By.id("advice-validate-email-email")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
+	}
+		@Test
+		public void TC_03_LoginWithLess6CharactersPassword() {
+			//Mở ra trang Home
+			driver.get("http://live.demoguru99.com/index.php");
+			// Click vào link My account để tới trang đăng nhập
+			driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+			
+			// Nhập valid email, <6 characters password
+			driver.findElement(By.id("email")).sendKeys("vandinh@gmail.com");
+			driver.findElement(By.id("pass")).sendKeys("va123");
+			
+			// Click Login button
+			driver.findElement(By.id("send2")).click();
+			
+			// Verify error message tại field password: Please enter 6 or more characters without leading or trailing spaces.
+			// So sánh Actual message (hàm thực thi) và Expected message: theo tài liệu yêu cầu
+			Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
+			
+	}
+		@Test
+		public void TC_04_LoginWithIncorrectPassword() {
+			//Mở ra trang Home
+			driver.get("http://live.demoguru99.com/index.php");
+			// Click vào link My account để tới trang đăng nhập
+			driver.findElement(By.xpath("//div[@class='footer']//a[@title='My Account']")).click();
+			
+			// Nhập valid email, invalid password
+			driver.findElement(By.id("email")).sendKeys("automation@gmail.com");
+			driver.findElement(By.id("pass")).sendKeys("va123123");
+			
+			// Click Login button
+			driver.findElement(By.id("send2")).click();
+			
+			// Verify error message: Invalid login or password.
+			// So sánh Actual message (hàm thực thi) và Expected message: theo tài liệu yêu cầu
+			Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
+			
 	}
 }
 	
